@@ -30,4 +30,5 @@ cloudbastion.ovpn - конфиг для подключения клиента
 3. Конфигурация.
 
 bastion_IP = 35.206.144.111
+
 someinternalhost_IP = 10.132.0.3
