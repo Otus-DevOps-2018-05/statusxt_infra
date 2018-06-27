@@ -81,8 +81,6 @@ testapp_port = 9292
 ```
 packer validate ./ubuntu16.json
 packer build -var-file=variables.json ubuntu16.json
-gcloud init
-gcloud auth application-default login
 ```
 
 ### 5.2.2 *
@@ -90,8 +88,8 @@ gcloud auth application-default login
 Предполагается, что все действия происходят в каталоге `packer`:
 - проверить шаблон и запустить build:
 ```
-packer validate ./ubuntu16.json
-packer build -var-file=variables.json ubuntu16.json
+packer validate ./immutable.json
+packer build -var-file=variables.json immutable.json
 ```
 - запустить скрипт по созданию VM в GCP из шаблона:
 ```
