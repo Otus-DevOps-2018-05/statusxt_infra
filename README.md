@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Otus-DevOps-2018-05/statusxt_infra.svg?branch=master)](https://travis-ci.org/Otus-DevOps-2018-05/statusxt_infra)
+[![Build Status](https://travis-ci.com/Otus-DevOps-2018-05/statusxt_infra.svg?branch=master)](https://travis-ci.com/Otus-DevOps-2018-05/statusxt_infra)
 
 # statusxt_infra
 statusxt Infra repository
