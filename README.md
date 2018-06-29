@@ -7,7 +7,7 @@ statusxt Infra repository
 - [Homework-03](#homework-03) GCP-1
 - [Homework-04](#homework-04) GCP-2
 - [Homework-05](#homework-05) Packer
-- [Homework-03](#homework-06) Terraform-1
+- [Homework-06](#homework-06) Terraform-1
 
 # Homework 03
 
