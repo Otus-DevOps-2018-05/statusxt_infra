@@ -4,13 +4,13 @@
 statusxt Infra repository
 
 # Table of content
-- [Homework-03](#homework-03) GCP-1
-- [Homework-04](#homework-04) GCP-2
-- [Homework-05](#homework-05)
+- [Homework-03 GCP-1](#homework-03-gcp-1)
+- [Homework-04 GCP-2](#homework-04-gcp-2)
+- [Homework-05 Packer](#homework-05-packer)
 - [Homework-06 Terraform-1](#homework-06-terraform-1)
 - [Homework-07 Terraform-2](#homework-07-terraform-2)
-)
-# Homework 03
+
+# Homework 03 GCP-1
 
 ## 3.1 Задание с 35 слайда
 
@@ -40,7 +40,7 @@ bastion_IP = 35.206.144.111
 
 someinternalhost_IP = 10.132.0.3
 
-# Homework 04
+# Homework 04 GCP-2
 
 ```
 gcloud compute instances create reddit-app-2\
@@ -62,7 +62,7 @@ testapp_IP = 35.187.70.142
 
 testapp_port = 9292
 
-# Homework 05
+# Homework 05 Packer
 
 ## 5.1 Что было сделано
 
