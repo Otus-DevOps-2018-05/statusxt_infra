@@ -6,10 +6,10 @@ statusxt Infra repository
 # Table of content
 - [Homework-03](#homework-03) GCP-1
 - [Homework-04](#homework-04) GCP-2
-- [Homework-05](#homework-05) Packer
-- [Homework-06](#homework-06) Terraform-1
-- [Homework-07](#homework-07) Terraform-2
-
+- [Homework-05](#homework-05)
+- [Homework-06 Terraform-1](#homework-06-terraform-1)
+- [Homework-07 Terraform-2](#homework-07-terraform-2)
+)
 # Homework 03
 
 ## 3.1 Задание с 35 слайда
