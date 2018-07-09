@@ -1,0 +1,13 @@
+[Unit]
+Description=Reddit - test app
+After=network.target multi-user.target
+Wants=network.target
+
+[Service]
+WorkingDirectory=/home/appuser/reddit
+ExecStart=/usr/local/bin/puma
+User=appuser
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
