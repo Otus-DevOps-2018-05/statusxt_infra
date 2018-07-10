@@ -3,4 +3,6 @@
 *.tfstate.backup
 *.tfvars
 .terraform/
-
+*.retry
+infra-*.json
+.vscode/

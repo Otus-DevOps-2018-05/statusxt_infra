@@ -18,7 +18,7 @@ variable app_disk_image {
 
 variable app_provisioner_toggle {
   description = "Turn on/turn off provisioners"
-  default     = "1"
+  default     = "0"
 }
 
 variable db_address {
