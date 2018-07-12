@@ -1,6 +1,6 @@
 ---
 - name: Deploy app
-  hosts: app
+  hosts: reddit-app
   tasks:
   - name: Fetch the latest version of application code
     git:
