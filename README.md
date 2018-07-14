@@ -4,12 +4,13 @@
 statusxt Infra repository
 
 # Table of content
-- [Homework-03](#homework-03) GCP-1
-- [Homework-04](#homework-04) GCP-2
-- [Homework-05](#homework-05) Packer
-- [Homework-06](#homework-06) Terraform-1
+- [Homework-03 GCP-1](#homework-03-gcp-1)
+- [Homework-04 GCP-2](#homework-04-gcp-2)
+- [Homework-05 Packer](#homework-05-packer)
+- [Homework-06 Terraform-1](#homework-06-terraform-1)
+- [Homework-07 Terraform-2](#homework-07-terraform-2)
 
-# Homework 03
+# Homework 03 GCP-1
 
 ## 3.1 Задание с 35 слайда
 
@@ -39,7 +40,7 @@ bastion_IP = 35.206.144.111
 
 someinternalhost_IP = 10.132.0.3
 
-# Homework 04
+# Homework 04 GCP-2
 
 ```
 gcloud compute instances create reddit-app-2\
@@ -61,7 +62,7 @@ testapp_IP = 35.187.70.142
 
 testapp_port = 9292
 
-# Homework 05
+# Homework 05 Packer
 
 ## 5.1 Что было сделано
 
@@ -102,7 +103,7 @@ packer build -var-file=variables.json immutable.json
 - перейти в GCP (https://console.cloud.google.com), Compute engine -> instances, в списке будет присуствовать созданный экземпляр и его внешний адрес
 - открыть в браузере http://<внешний_адрес_экземпляра>:9292
 
-# Homework 06
+# Homework 06 Terraform-1
 
 ## 6.1 Что было сделано
 
@@ -147,4 +148,40 @@ terraform apply
 - открыть в браузере http://<внешний_адрес_экземпляра>:9292
 - перейти в GCP (https://console.cloud.google.com), Compute engine -> metadata, в списке ssh ключей будут присуствовать appuser1 appuser2
 - открыть в браузере http://<внешний_адрес_балансировщика>:9292
+
+# Homework 07 Terraform-2
+
+## 7.1 Что было сделано
+
+- определены ресурсы фаервола
+- импортирована конфигурация из gcp
+- конфиг main.tf на несколько конфигов - app.tf, db.tf, vpc.tf
+- созданы модули app, db, vpc
+- созданы инфраструктуры stage и prod, используюшие модули app, db, vpc
+- описано создание storage-bucket с использованием соответствующего модуля из registry
+
+В рамках задания со *:
+- настроено хранение стейт файла в удаленном бекенде (remote backends) для окружений stage и prod с использованием Google Cloud Storage в качестве бекенда, бекенд описан в backend.tf
+- в модуль app добавлено описание provisioner для деплоя приложения - запуск скрипта деплоя, определение переменной окружения DATABASE_URL для сервиса puma
+- в модуль db добавлено описание provisioner для изменения конфига mongod - изменение прослушиваемого адреса
+- реализовано отключение provisioner в модуле app - через переменную app_provisioner_toggle ресурса null_resource
+
+
+## 7.2 Как запустить проект
+### 7.2.1 Base
+в каталоге `terraform\prod`:
+```
+terraform apply
+```
+
+### 7.2.2 *
+
+```
+terraform apply
+```
+
+## 7.3 Как проверить
+
+- открыть в браузере http://app_external_ip:9292 , ошибки об отсутствии подключения к db быть не должно
+
 
