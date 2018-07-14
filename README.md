@@ -9,6 +9,7 @@ statusxt Infra repository
 - [Homework-05 Packer](#homework-05-packer)
 - [Homework-06 Terraform-1](#homework-06-terraform-1)
 - [Homework-07 Terraform-2](#homework-07-terraform-2)
+- [Homework-08 Ansible-1](#homework-08-ansible-1)
 
 # Homework 03 GCP-1
 
@@ -155,7 +156,7 @@ terraform apply
 
 - определены ресурсы фаервола
 - импортирована конфигурация из gcp
-- конфиг main.tf на несколько конфигов - app.tf, db.tf, vpc.tf
+- конфиг main.tf разбит на несколько конфигов - app.tf, db.tf, vpc.tf
 - созданы модули app, db, vpc
 - созданы инфраструктуры stage и prod, используюшие модули app, db, vpc
 - описано создание storage-bucket с использованием соответствующего модуля из registry
@@ -184,4 +185,27 @@ terraform apply
 
 - открыть в браузере http://app_external_ip:9292 , ошибки об отсутствии подключения к db быть не должно
 
+# Homework 08 Ansible-1
 
+## 8.1 Что было сделано
+
+- установлен Ansible через pip
+- заданы параметры в ansible.cfg
+- создан inventory с группами хостов, проверена работа ansible
+- создан inventory.yml, проверен
+- создан простой плейбук clone.yml для клонирования репозитория
+- репозиторий будет клонирован, только если целевой каталог не существует, в результате выполнения команды это будет отражено в строке "changed=1", в противном случае "changed=0"
+
+## 8.2 Как запустить проект
+### 8.2.1 Base
+- в каталоге `ansible`:
+```
+ansible-playbook clone.yml
+```
+
+## 8.3 Как проверить
+
+- в каталоге `ansible`:
+```
+ansible app -m systemd -a name=puma
+```
