@@ -10,6 +10,7 @@ statusxt Infra repository
 - [Homework-06 Terraform-1](#homework-06-terraform-1)
 - [Homework-07 Terraform-2](#homework-07-terraform-2)
 - [Homework-08 Ansible-1](#homework-08-ansible-1)
+- [Homework-09 Ansible-2](#homework-09-ansible-2)
 
 # Homework 03 GCP-1
 
@@ -209,3 +210,51 @@ ansible-playbook clone.yml
 ```
 ansible app -m systemd -a name=puma
 ```
+
+# Homework 09 Ansible-2
+
+## 9.1 Что было сделано
+
+- создан плейбук с одним сценарием для настройки всех инстансов
+- создан плейбук с отдельными сценариями для каждого инстанса
+- один плейбук разбит на несколько - app.yml, db.yml, deploy.yml
+- создан главный плейбук site.yml, вызывающий плейбуки app.yml, db.yml, deploy.yml
+
+В рамках задания со *:
+- настроено использование dynamic inventory с использованием gce.py 
+- в плейбуках указаны теги инстансов GCP для работы через dynamic inventory
+
+Изменен провижининг в Packer:
+- cозданы плейбуки ansible/packer_app.yml и ansible/packer_db.yml, в них описаны действия, аналогичные bash скриптам
+- заменены секции Provision в образах packer/app.json, packer/db.json
+- конфигурирование и деплой приложения проверны c помощью плейбука site.yml 
+
+
+## 9.2 Как запустить проект
+### 9.2.1 Base
+в корне репозитория:
+```
+cd terraform/stage && terraform apply
+cd ../../ansible && ansible-playbook site.yml
+cd ../terraform/stage && terraform destroy
+```
+
+### 9.2.2 *
+в корне репозитория:
+```
+cd terraform/stage && terraform apply
+cd ../../ansible && ansible-playbook site.yml
+cd ../terraform/stage && terraform destroy
+```
+### 9.2.3 Packer
+в корне репозитория:
+```
+packer build -var-file=packer/variables.json packer/app.json
+packer build -var-file=packer/variables.json packer/db.json
+cd terraform/stage && terraform apply
+cd ../../ansible && ansible-playbook site.yml
+```
+
+## 9.3 Как проверить
+
+- открыть в браузере http://app_external_ip:9292 , ошибки об отсутствии подключения к db быть не должно

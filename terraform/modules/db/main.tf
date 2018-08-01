@@ -26,13 +26,13 @@ resource "google_compute_instance" "db" {
     private_key = "${file(var.private_key_path)}"
   }
 
-  provisioner "remote-exec" {
+  #provisioner "remote-exec" {
     # правка конфига mongod - порт будет прослушиваться на внутреннем интерфейсе
-    inline = [
-      "sudo sed -i 's/^  bindIp: .*/  bindIp: ${google_compute_instance.db.network_interface.0.address}/g' /etc/mongod.conf",
-      "sudo systemctl restart mongod",
-    ]
-  }
+  #  inline = [
+  #    "sudo sed -i 's/^  bindIp: .*/  bindIp: ${google_compute_instance.db.network_interface.0.address}/g' /etc/mongod.conf",
+  #    "sudo systemctl restart mongod",
+  #  ]
+  #}
 }
 
 resource "google_compute_firewall" "firewall_mongo" {
