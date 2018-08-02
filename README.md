@@ -11,6 +11,7 @@ statusxt Infra repository
 - [Homework-07 Terraform-2](#homework-07-terraform-2)
 - [Homework-08 Ansible-1](#homework-08-ansible-1)
 - [Homework-09 Ansible-2](#homework-09-ansible-2)
+- [Homework-10 Ansible-3](#homework-10-ansible-3)
 
 # Homework 03 GCP-1
 
@@ -258,3 +259,56 @@ cd ../../ansible && ansible-playbook site.yml
 ## 9.3 Как проверить
 
 - открыть в браузере http://app_external_ip:9292 , ошибки об отсутствии подключения к db быть не должно
+
+# Homework 10 Ansible-3
+
+## 10.1 Что было сделано
+
+- созданы структуры ролей app и db с помощью ansible-galaxy init
+- в роли перенесены tasks, handlers, templates, files из плейбуков ansible/app.yml и ansible/db.yml
+- переменные по умолчанию из шаблонов определены в /roles/xxx/defaults/main.yml
+- в плейбуки ansible/app.yml и ansible/db.yml добавлены вызовы соответсвующих ролей, работа ролей проверена
+- в ansible/environments созданы две директории для окружений stage и prod
+- inventory файл перенесен в директории окружений, в ansible/ansible.cfg определен inventory по умолчанию из stage
+- переменные, определенные в плейбуках, перенесены в stage/group_vars/, в файлы с названиями, совпадающими с названиями групп хостов, для которых эти переменные определяются
+- настроен вывод информации об окружении с помощью модуля debug и переменной env
+- все плейбуки перенесены в отдельную директорию согласно best practices, файлы из предидущих дз перенесены в директорию old, в папке ansible из файлов остается
+только ansible.cfg и requirements.txt
+- настрока обоих окружений проверена
+- созданы файлы environments/stage/requirements.yml и environments/prod/requirements.yml, в них добавлена комьюнити роль jdauphant.nginx и установлена через ansible-galaxy install
+- переменные для работы роли добавлены в переменные в stage/group_vars/app и prod/group_vars/app
+- в конфигурацию терраформа добавлено открытие 80 порта для инстанса приложения
+- в плейбук app.yml добавлен вызов роли jdauphant.nginx
+- плейбук site.yml применен для окружения stage, приложение теперь доступно на 80 порту
+- создан плейбук для создания пользователей users.yml, файлы с данными пользователей для каждого окружения credentials.yml, зашифрованные с помощью vault.key
+- вызов плейбука users.yml добавлен в файл site.yml, работа проверена, пользователи созданы
+
+В рамках задания со *:
+- настроено использование dynamic inventory с использованием gce.py, gce.ini свой для каждого окружения, файл с групповыми переменными переименованы в tag_reddit-..
+- в плейбуках указаны теги инстансов GCP для работы через dynamic inventory
+
+В рамках задания с **:
+- travisci настроен для я контроля состояния инфраструктурного репозитория - packer validate для всех шаблонов, terraform validate и tflint для окружений stage и prod, ansible-lint для плейбуков ansible
+- в README.md добавлен бейдж с статусом билда
+
+
+## 10.2 Как запустить проект
+### 10.2.1 Base
+в корне репозитория:
+```
+cd terraform/stage && terraform apply
+cd ../../ansible && ansible-playbook playbooks/site.yml
+cd ../terraform/stage && terraform destroy
+```
+
+### 10.2.2 *
+в корне репозитория:
+```
+cd terraform/stage && terraform apply
+cd ../../ansible && ansible-playbook playbooks/site.yml
+cd ../terraform/stage && terraform destroy
+```
+
+## 10.3 Как проверить
+
+- открыть в браузере http://app_external_ip , ошибки об отсутствии подключения к db быть не должно
