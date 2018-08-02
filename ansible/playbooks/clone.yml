@@ -2,7 +2,8 @@
 - name: Clone
   hosts: app
   tasks:
-    - name: Clone repo
-      git:
-        repo: https://github.com/express42/reddit.git
-        dest: /home/appuser/reddit
+  - name: Fetch the latest version of application code
+    git:
+      repo: 'https://github.com/express42/reddit.git'
+      dest: /home/appuser/reddit
+      version: monolith
