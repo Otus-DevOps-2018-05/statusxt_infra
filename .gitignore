@@ -1,10 +1,22 @@
+.vscode/
+#
+# Terraform
 *.tfstate
 *.tfstate.*.backup
 *.tfstate.backup
 *.tfvars
 .terraform/
+#
+# Ansible
 *.retry
 infra-*.json
-.vscode/
 jdauphant.nginx
 vault.key
+#
+# Vagrant & molecule
+.vagrant/
+*.log
+*.pyc
+.molecule
+.cache
+.pytest_cache
