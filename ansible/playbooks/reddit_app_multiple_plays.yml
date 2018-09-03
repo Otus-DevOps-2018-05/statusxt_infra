@@ -43,7 +43,7 @@
   handlers:
   - name: reload puma
     systemd: name=puma state=reloaded
-  
+
 - name: Deploy app
   hosts: app
   tags: deploy-tag
@@ -58,7 +58,7 @@
     bundler:
       state: present
       chdir: /home/appuser/reddit
-      
+
   handlers:
   - name: restart puma
     become: true

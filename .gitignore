@@ -6,3 +6,5 @@
 *.retry
 infra-*.json
 .vscode/
+jdauphant.nginx
+vault.key
