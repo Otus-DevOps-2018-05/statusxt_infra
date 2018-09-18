@@ -354,8 +354,8 @@ raw_config_args:
 - в плейбуках packer_db.yml и packer_app.yml использованы роли db и app, в шаблонах пакера использованы теги для запуска нужных таксов, в секцию провиженера в шаблонах добавлено определение переменной:
 ```
 "ansible_env_vars": [
-    "ANSIBLE_ROLES_PATH=./roles:~/projects/andywow_infra/ansible/roles"
-]
+    "ANSIBLE_ROLES_PATH={{pwd}}/ansible/roles"
+    ]
 ```
 
 ## 11.2 Как запустить проект
