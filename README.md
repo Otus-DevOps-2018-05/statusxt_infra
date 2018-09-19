@@ -12,6 +12,7 @@ statusxt Infra repository
 - [Homework-08 Ansible-1](#homework-08-ansible-1)
 - [Homework-09 Ansible-2](#homework-09-ansible-2)
 - [Homework-10 Ansible-3](#homework-10-ansible-3)
+- [Homework-10 Ansible-4](#homework-11-ansible-4)
 
 # Homework 03 GCP-1
 
@@ -312,3 +313,74 @@ cd ../terraform/stage && terraform destroy
 ## 10.3 Как проверить
 
 - открыть в браузере http://app_external_ip , ошибки об отсутствии подключения к db быть не должно
+
+# Homework 11 Ansible-4
+
+## 11.1 Что было сделано
+
+Текущее окружение - WSL
+- установлен virtualbox (windows), каталог добавлен в PATH
+- установлен vagrant, добавлены переменные среды:
+```
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+export PATH="$PATH:/mnt/c/Program Files/Oracle/VirtualBox"
+export PATH="$PATH:/mnt/c/Windows/System32"
+export PATH="$PATH:/mnt/c/Windows/System32/WindowsPowerShell/v1.0"
+```
+- создан vagrantfile, в нем описаны ВМ
+- для работы в WSL в vagrantfile добавлено отключение serial port:
+```
+  config.vm.provider "virtualbox" do |vb|
+    vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
+  end
+```
+- в vagrantfile добавлен provision "ansible", в site.yml добавлена установка питона с использование raw модуля (base.yml)
+- в роли app и db добавлены таски из packer_app и packer_db, к таскам добавлены теги, таски в нужном порядке вызываются из main.yml
+- конфигурация параметризована, чтобы мы могли использовать ее для пользователя другого, чем appuser - {{ deploy_user }}. Переменная определяется в ansible.extra_vars vagrantfile
+
+В рамках задания со *:
+- конфигурация Vagrant дополнена для корректной работы проксирования приложения с помощью nginx 
+
+В рамках задания "Тестирование роли":
+- через pip install -r requirements.txt установлены molecule, testinfra, python-vagrant
+- molecule init - созданы заготовки тестов для роли db
+- добавлены тесты в db/molecule/default/tests/test_default.py 
+- в molecule.yml добавлен параметр для работы через wsl:
+```
+raw_config_args:
+  - "customize ['modifyvm', :id, '--uartmode1', 'disconnected']"
+```
+- в плейбук молекулы db/molecule/default/playbook.yml добавлены "become: true" и переменная mongo_bind_ip
+- в плейбуках packer_db.yml и packer_app.yml использованы роли db и app, в шаблонах пакера использованы теги для запуска нужных таксов, в секцию провиженера в шаблонах добавлено определение переменной:
+```
+"ansible_env_vars": [
+    "ANSIBLE_ROLES_PATH={{pwd}}/ansible/roles"
+    ]
+```
+
+## 11.2 Как запустить проект
+### 11.2.1 Base
+в корне репозитория:
+```
+cd ansible && vagrant up
+vagrant destroy -f
+```
+
+### 11.2.2 *
+в корне репозитория:
+```
+cd ansible && vagrant up
+vagrant destroy -f
+```
+
+### 11.2.3 Тестирование роли
+в корне репозитория:
+```
+cd ansible/roles/db && molecule create
+molecule converge
+molecule verify
+```
+
+## 11.3 Как проверить
+- открыть в браузере http://http://10.10.10.20
+- molecule verify - тесты должны пройти успешно
